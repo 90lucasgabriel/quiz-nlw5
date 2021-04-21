@@ -7,13 +7,13 @@ class AppbarWidget extends PreferredSize {
       : super(
           preferredSize: Size.fromHeight(250),
           child: Container(
-            height: 250,
+            height: 270,
             child: Stack(
               children: [
                 Container(
                   decoration: BoxDecoration(gradient: AppGradients.linear),
                   child: Container(
-                    height: 161,
+                    height: 181,
                     width: double.maxFinite,
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     child: Row(
@@ -46,7 +46,7 @@ class AppbarWidget extends PreferredSize {
                   ),
                 ),
                 Align(
-                  alignment: Alignment(0, 1.2),
+                  alignment: Alignment(0, 1),
                   child: ScoreCardWidget(),
                 ),
               ],
