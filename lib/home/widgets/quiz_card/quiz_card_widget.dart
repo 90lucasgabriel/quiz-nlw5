@@ -19,13 +19,13 @@ class QuizCardWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 24),
+            margin: EdgeInsets.only(bottom: 20),
             height: 40,
             width: 40,
             child: Image.asset(AppImages.blocks),
           ),
           Container(
-            margin: EdgeInsets.only(bottom: 24),
+            margin: EdgeInsets.only(bottom: 20),
             child: Text(
               'Gerenciamento de Estado',
               style: AppTextStyles.heading15,
@@ -36,12 +36,12 @@ class QuizCardWidget extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Text(
-                  '3 de 10',
+                  '3/10',
                   style: AppTextStyles.body11,
                 ),
               ),
               Expanded(
-                flex: 4,
+                flex: 3,
                 child: LinearProgressIndicator(
                   value: 0.3,
                   backgroundColor: AppColors.chartSecondary,
