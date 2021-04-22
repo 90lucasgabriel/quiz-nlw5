@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz/challenge/widgets/next_button/next_button_widget.dart';
 import 'package:quiz/challenge/widgets/question_indicator/question_indicator_widget.dart';
 import 'package:quiz/challenge/widgets/quiz/quiz_widget.dart';
 
@@ -19,6 +20,30 @@ class _ChallengePageState extends State<ChallengePage> {
         ),
       ),
       body: QuizWidget(title: 'O que o Flutter faz em sua totalidade?'),
+      bottomNavigationBar: SafeArea(
+        bottom: true,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                child: NextButtonWidget.white(
+                  label: 'Voltar',
+                  onPressed: () {},
+                ),
+              ),
+              SizedBox(width: 8),
+              Expanded(
+                child: NextButtonWidget.green(
+                  label: 'Confirmar',
+                  onPressed: () {},
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
