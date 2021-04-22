@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:quiz/shared/models/question_model.dart';
+import 'package:quiz/challenge/challenge_controller.dart';
 
 import 'package:quiz/challenge/widgets/next_button/next_button_widget.dart';
 import 'package:quiz/challenge/widgets/question_indicator/question_indicator_widget.dart';
@@ -16,6 +17,18 @@ class ChallengePage extends StatefulWidget {
 }
 
 class _ChallengePageState extends State<ChallengePage> {
+  final controller = ChallengeController();
+  final pageController = PageController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    pageController.addListener(() {
+      controller.currentPage = pageController.page!.toInt() + 1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,13 +45,23 @@ class _ChallengePageState extends State<ChallengePage> {
                   Navigator.pop(context);
                 },
               ),
-              QuestionIndicatorWidget(),
+              ValueListenableBuilder<int>(
+                valueListenable: controller.currentPageNotifier,
+                builder: (context, value, _) => QuestionIndicatorWidget(
+                  currentPage: value,
+                  totalPages: widget.questions.length,
+                ),
+              ),
             ],
           ),
         ),
       ),
-      body: QuizWidget(
-        question: widget.questions[0],
+      body: PageView(
+        controller: pageController,
+        physics: NeverScrollableScrollPhysics(),
+        children: widget.questions
+            .map((question) => QuizWidget(question: question))
+            .toList(),
       ),
       bottomNavigationBar: SafeArea(
         bottom: true,
@@ -49,8 +72,15 @@ class _ChallengePageState extends State<ChallengePage> {
             children: [
               Expanded(
                 child: NextButtonWidget.white(
-                  label: 'Voltar',
-                  onPressed: () {},
+                  label: 'Pular',
+                  onPressed: () {
+                    pageController.nextPage(
+                      duration: Duration(
+                        milliseconds: 300,
+                      ),
+                      curve: Curves.bounceInOut,
+                    );
+                  },
                 ),
               ),
               SizedBox(width: 8),

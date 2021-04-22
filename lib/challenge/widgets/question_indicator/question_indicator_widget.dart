@@ -4,6 +4,15 @@ import 'package:quiz/core/core.dart';
 import 'package:quiz/shared/widgets/progress_indicator/progress_indicator_widget.dart';
 
 class QuestionIndicatorWidget extends StatelessWidget {
+  final int currentPage;
+  final int totalPages;
+
+  const QuestionIndicatorWidget({
+    Key? key,
+    required this.currentPage,
+    required this.totalPages,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,17 +25,17 @@ class QuestionIndicatorWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Questão 04',
+                  'Questão $currentPage',
                   style: AppTextStyles.body,
                 ),
                 Text(
-                  'de 10',
+                  'de $totalPages',
                   style: AppTextStyles.body,
                 ),
               ],
             ),
           ),
-          ProgressIndicatorWidget(value: 0.4),
+          ProgressIndicatorWidget(value: currentPage / totalPages),
         ],
       ),
     );
