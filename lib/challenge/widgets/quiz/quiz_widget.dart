@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/challenge/widgets/answer/answer_widget.dart';
+
 import 'package:quiz/core/core.dart';
+import 'package:quiz/shared/models/question_model.dart';
+
+import 'package:quiz/challenge/widgets/answer/answer_widget.dart';
 
 class QuizWidget extends StatelessWidget {
-  final String title;
-  QuizWidget({required this.title});
+  final QuestionModel question;
+  QuizWidget({required this.question});
 
   @override
   Widget build(BuildContext context) {
@@ -12,23 +15,18 @@ class QuizWidget extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            title,
+            question.title,
             style: AppTextStyles.heading,
           ),
           SizedBox(height: 24),
-          AnswerWidget(
-              title:
-                  'Possibilita a criação de aplicativo compilados nativamente.'),
-          AnswerWidget(
-              isRight: false,
-              isSelected: true,
-              title:
-                  'Possibilita a criação de aplicativo compilados nativamente.'),
-          AnswerWidget(
-              isRight: true,
-              isSelected: true,
-              title:
-                  'Possibilita a criação de aplicativo compilados nativamente.'),
+          ...question.answers
+              .map(
+                (answer) => AnswerWidget(
+                  title: answer.title,
+                  isRight: answer.isRight ?? false,
+                ),
+              )
+              .toList()
         ],
       ),
     );
