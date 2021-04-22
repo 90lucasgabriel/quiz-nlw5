@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
 
+import 'package:quiz/challenge/widgets/answer/answer_widget.dart';
 import 'package:quiz/core/core.dart';
+import 'package:quiz/shared/models/answer_model.dart';
 import 'package:quiz/shared/models/question_model.dart';
 
-import 'package:quiz/challenge/widgets/answer/answer_widget.dart';
-
-class QuizWidget extends StatelessWidget {
+class QuizWidget extends StatefulWidget {
   final QuestionModel question;
-  QuizWidget({required this.question});
+  final VoidCallback onChange;
+
+  QuizWidget({
+    Key? key,
+    required this.question,
+    required this.onChange,
+  }) : super(key: key);
+
+  @override
+  _QuizWidgetState createState() => _QuizWidgetState();
+}
+
+class _QuizWidgetState extends State<QuizWidget> {
+  int selectedIndex = -1;
+
+  AnswerModel answer(int index) => widget.question.answers[index];
 
   @override
   Widget build(BuildContext context) {
@@ -15,18 +30,23 @@ class QuizWidget extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            question.title,
+            widget.question.title,
             style: AppTextStyles.heading,
           ),
           SizedBox(height: 24),
-          ...question.answers
-              .map(
-                (answer) => AnswerWidget(
-                  title: answer.title,
-                  isRight: answer.isRight ?? false,
-                ),
-              )
-              .toList()
+          for (var i = 0; i < widget.question.answers.length; i++)
+            AnswerWidget(
+              answer: answer(i),
+              disabled: selectedIndex != -1,
+              isSelected: selectedIndex == i,
+              onPressed: () {
+                selectedIndex = i;
+                setState(() {});
+
+                Future.delayed(Duration(seconds: 1))
+                    .then((value) => widget.onChange());
+              },
+            ),
         ],
       ),
     );

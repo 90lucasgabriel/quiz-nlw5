@@ -20,6 +20,17 @@ class _ChallengePageState extends State<ChallengePage> {
   final controller = ChallengeController();
   final pageController = PageController();
 
+  void nextPage() {
+    if (controller.currentPage < widget.questions.length) {
+      pageController.nextPage(
+        duration: Duration(
+          milliseconds: 500,
+        ),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -60,37 +71,41 @@ class _ChallengePageState extends State<ChallengePage> {
         controller: pageController,
         physics: NeverScrollableScrollPhysics(),
         children: widget.questions
-            .map((question) => QuizWidget(question: question))
+            .map(
+              (question) => QuizWidget(
+                question: question,
+                onChange: nextPage,
+              ),
+            )
             .toList(),
       ),
       bottomNavigationBar: SafeArea(
         bottom: true,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Expanded(
-                child: NextButtonWidget.white(
-                  label: 'Pular',
-                  onPressed: () {
-                    pageController.nextPage(
-                      duration: Duration(
-                        milliseconds: 300,
-                      ),
-                      curve: Curves.bounceInOut,
-                    );
-                  },
-                ),
-              ),
-              SizedBox(width: 8),
-              Expanded(
-                child: NextButtonWidget.green(
-                  label: 'Confirmar',
-                  onPressed: () {},
-                ),
-              ),
-            ],
+          padding: EdgeInsets.all(16),
+          child: ValueListenableBuilder<int>(
+            valueListenable: controller.currentPageNotifier,
+            builder: (context, value, _) => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                if (value < widget.questions.length)
+                  Expanded(
+                    child: NextButtonWidget.white(
+                      label: 'Pular',
+                      onPressed: nextPage,
+                    ),
+                  ),
+                if (value == widget.questions.length)
+                  Expanded(
+                    child: NextButtonWidget.green(
+                      label: 'Finalizar',
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class AnswerModel {
   final String title;
-  final bool? isRight;
+  final bool isRight;
 
   AnswerModel({
     required this.title,
@@ -19,7 +19,7 @@ class AnswerModel {
   factory AnswerModel.fromMap(Map<String, dynamic> map) {
     return AnswerModel(
       title: map['title'],
-      isRight: map['isRight'],
+      isRight: map['isRight'] ?? false,
     );
   }
 
