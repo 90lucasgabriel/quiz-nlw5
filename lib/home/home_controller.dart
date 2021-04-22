@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quiz/core/app_images.dart';
+import 'package:quiz/home/home_repository.dart';
 
 import 'package:quiz/home/home_state.dart';
 
@@ -16,54 +17,25 @@ class HomeController {
   UserModel? user;
   List<QuizModel>? quizList;
 
-  void getUser() async {
-    state = HomeState.loading;
-    await Future.delayed(Duration(seconds: 2));
+  final repository = HomeRepository();
 
-    user = UserModel(
-        name: 'Lucas Gabriel',
-        photoUrl: 'https://avatars.githubusercontent.com/u/9625765?v=4');
-    state = HomeState.success;
+  void getUser() async {
+    try {
+      state = HomeState.loading;
+      user = await repository.getUser();
+      state = HomeState.success;
+    } catch (eror) {
+      state = HomeState.error;
+    }
   }
 
   void getQuizList() async {
-    state = HomeState.loading;
-    await Future.delayed(Duration(seconds: 2));
-
-    quizList = [
-      QuizModel(
-        title: 'NLW 5 Flutter',
-        image: AppImages.blocks,
-        level: Level.facil,
-        quantityAnswered: 1,
-        questions: [
-          QuestionModel(
-            title: 'Está curtindo Flutter',
-            answers: [
-              AnswerModel(title: 'Estou curtindo.'),
-              AnswerModel(title: 'Amando Flutter.'),
-              AnswerModel(title: 'Muito top.'),
-              AnswerModel(
-                title: 'Show de bola.',
-                isRight: true,
-              ),
-            ],
-          ),
-          QuestionModel(
-            title: 'Está curtindo Flutter',
-            answers: [
-              AnswerModel(title: 'Estou curtindo.'),
-              AnswerModel(title: 'Amando Flutter.'),
-              AnswerModel(title: 'Muito top.'),
-              AnswerModel(
-                title: 'Show de bola.',
-                isRight: true,
-              ),
-            ],
-          ),
-        ],
-      ),
-    ];
-    state = HomeState.success;
+    try {
+      state = HomeState.loading;
+      quizList = await repository.getQuizList();
+      state = HomeState.success;
+    } catch (error) {
+      state = HomeState.error;
+    }
   }
 }
