@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/core/app_images.dart';
-import 'package:quiz/home/home_repository.dart';
 
 import 'package:quiz/home/home_state.dart';
+import 'package:quiz/home/home_repository.dart';
 
-import 'package:quiz/shared/models/answer_model.dart';
-import 'package:quiz/shared/models/question_model.dart';
 import 'package:quiz/shared/models/quiz_model.dart';
 import 'package:quiz/shared/models/user_model.dart';
 
