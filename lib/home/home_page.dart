@@ -89,6 +89,7 @@ class _HomePageState extends State<HomePage> {
                     .toList(),
               ),
             ),
+            SizedBox(height: 16),
           ],
         ),
       ),
