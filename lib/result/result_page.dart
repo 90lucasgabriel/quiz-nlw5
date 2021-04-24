@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/challenge/widgets/next_button/next_button_widget.dart';
+import 'package:share_plus/share_plus.dart';
+
 import 'package:quiz/core/core.dart';
+import 'package:quiz/challenge/widgets/next_button/next_button_widget.dart';
 
 class ResultPage extends StatelessWidget {
   final String title;
@@ -64,7 +66,10 @@ class ResultPage extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 32),
                         child: NextButtonWidget.purple(
                           label: 'Compartilhar',
-                          onPressed: () {},
+                          onPressed: () {
+                            Share.share(
+                                'Resultado do quiz $title:\n${totalRightAnswers / totalQuestions}% de aproveitamento.\n\nhttps://github.com/90lucasgabriel/quiz-nlw5');
+                          },
                         ),
                       ),
                     ),
