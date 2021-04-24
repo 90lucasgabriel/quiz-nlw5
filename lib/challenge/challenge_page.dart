@@ -10,8 +10,13 @@ import 'package:quiz/challenge/widgets/quiz/quiz_widget.dart';
 
 class ChallengePage extends StatefulWidget {
   final List<QuestionModel> questions;
+  final String title;
 
-  const ChallengePage({Key? key, required this.questions}) : super(key: key);
+  const ChallengePage({
+    Key? key,
+    required this.questions,
+    required this.title,
+  }) : super(key: key);
 
   @override
   _ChallengePageState createState() => _ChallengePageState();
@@ -104,7 +109,10 @@ class _ChallengePageState extends State<ChallengePage> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ResultPage(),
+                            builder: (context) => ResultPage(
+                              title: widget.title,
+                              totalQuestions: widget.questions.length,
+                            ),
                           ),
                         );
                       },
