@@ -37,6 +37,14 @@ class _ChallengePageState extends State<ChallengePage> {
     }
   }
 
+  void onSelected(bool value) {
+    if (value) {
+      controller.totalRightAnswers++;
+    }
+
+    nextPage();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -80,7 +88,7 @@ class _ChallengePageState extends State<ChallengePage> {
             .map(
               (question) => QuizWidget(
                 question: question,
-                onChange: nextPage,
+                onSelected: onSelected,
               ),
             )
             .toList(),
@@ -111,6 +119,7 @@ class _ChallengePageState extends State<ChallengePage> {
                           MaterialPageRoute(
                             builder: (context) => ResultPage(
                               title: widget.title,
+                              totalRightAnswers: controller.totalRightAnswers,
                               totalQuestions: widget.questions.length,
                             ),
                           ),

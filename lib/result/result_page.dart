@@ -4,11 +4,13 @@ import 'package:quiz/core/core.dart';
 
 class ResultPage extends StatelessWidget {
   final String title;
+  final int totalRightAnswers;
   final int totalQuestions;
 
   const ResultPage({
     Key? key,
     required this.title,
+    required this.totalRightAnswers,
     required this.totalQuestions,
   }) : super(key: key);
 
@@ -43,7 +45,8 @@ class ResultPage extends StatelessWidget {
                         style: AppTextStyles.bodyBold,
                       ),
                       TextSpan(
-                        text: '\ncom 6 de $totalQuestions acertos.',
+                        text:
+                            '\ncom $totalRightAnswers de $totalQuestions acertos.',
                         style: AppTextStyles.body,
                       ),
                     ],
