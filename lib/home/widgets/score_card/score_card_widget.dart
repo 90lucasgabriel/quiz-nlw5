@@ -3,6 +3,10 @@ import 'package:quiz/core/core.dart';
 import 'package:quiz/home/widgets/chart/chart_widget.dart';
 
 class ScoreCardWidget extends StatelessWidget {
+  final double value;
+
+  const ScoreCardWidget({Key? key, this.value = 0}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +20,7 @@ class ScoreCardWidget extends StatelessWidget {
         children: [
           Expanded(
             flex: 3,
-            child: ChartWidget(),
+            child: ChartWidget(value: value),
           ),
           Expanded(
             flex: 5,
