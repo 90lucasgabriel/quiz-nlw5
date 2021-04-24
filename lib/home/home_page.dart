@@ -69,16 +69,16 @@ class _HomePageState extends State<HomePage> {
                 mainAxisSpacing: 16,
                 children: controller.quizList!
                     .map(
-                      (item) => QuizCardWidget(
-                        title: item.title,
-                        quantityAnswered: item.quantityAnswered,
-                        totalQuestions: item.questions.length,
+                      (quiz) => QuizCardWidget(
+                        title: quiz.title,
+                        quantityAnswered: quiz.quantityAnswered,
+                        totalQuestions: quiz.questions.length,
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => ChallengePage(
-                                questions: item.questions,
+                                questions: quiz.questions,
                               ),
                             ),
                           );
