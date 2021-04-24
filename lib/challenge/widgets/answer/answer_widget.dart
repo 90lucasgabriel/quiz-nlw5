@@ -5,7 +5,7 @@ import 'package:quiz/shared/models/answer_model.dart';
 
 class AnswerWidget extends StatelessWidget {
   final AnswerModel answer;
-  final VoidCallback onPressed;
+  final ValueChanged<bool> onPressed;
   final bool disabled;
   final bool isSelected;
 
@@ -38,7 +38,9 @@ class AnswerWidget extends StatelessWidget {
     return IgnorePointer(
       ignoring: disabled,
       child: GestureDetector(
-        onTap: onPressed,
+        onTap: () {
+          onPressed(answer.isRight);
+        },
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           padding: EdgeInsets.all(16),

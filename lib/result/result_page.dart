@@ -3,6 +3,17 @@ import 'package:quiz/challenge/widgets/next_button/next_button_widget.dart';
 import 'package:quiz/core/core.dart';
 
 class ResultPage extends StatelessWidget {
+  final String title;
+  final int totalRightAnswers;
+  final int totalQuestions;
+
+  const ResultPage({
+    Key? key,
+    required this.title,
+    required this.totalRightAnswers,
+    required this.totalQuestions,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,11 +41,12 @@ class ResultPage extends StatelessWidget {
                     style: AppTextStyles.body,
                     children: [
                       TextSpan(
-                        text: '\nNLW5 Quiz',
+                        text: '\n$title',
                         style: AppTextStyles.bodyBold,
                       ),
                       TextSpan(
-                        text: '\ncom 6 de 10 acertos.',
+                        text:
+                            '\ncom $totalRightAnswers de $totalQuestions acertos.',
                         style: AppTextStyles.body,
                       ),
                     ],
