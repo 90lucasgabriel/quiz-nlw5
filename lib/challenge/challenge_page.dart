@@ -27,7 +27,7 @@ class _ChallengePageState extends State<ChallengePage> {
   final pageController = PageController();
 
   void nextPage() {
-    if (controller.currentPage < widget.questions.length) {
+    if (controller.currentPage < 10) {
       pageController.nextPage(
         duration: Duration(
           milliseconds: 500,
@@ -41,8 +41,6 @@ class _ChallengePageState extends State<ChallengePage> {
     if (value) {
       controller.totalRightAnswers++;
     }
-
-    nextPage();
   }
 
   @override
@@ -81,18 +79,20 @@ class _ChallengePageState extends State<ChallengePage> {
           ),
         ),
       ),
-      body: PageView(
-        controller: pageController,
-        physics: NeverScrollableScrollPhysics(),
-        children: widget.questions
-            .map(
-              (question) => QuizWidget(
-                question: question,
-                onSelected: onSelected,
-              ),
+      body: widget.questions.length > 0
+          ? PageView(
+              controller: pageController,
+              physics: NeverScrollableScrollPhysics(),
+              children: widget.questions
+                  .map(
+                    (question) => QuizWidget(
+                      question: question,
+                      onSelected: onSelected,
+                    ),
+                  )
+                  .toList(),
             )
-            .toList(),
-      ),
+          : CircularProgressIndicator(),
       bottomNavigationBar: SafeArea(
         bottom: true,
         child: Container(
@@ -102,31 +102,31 @@ class _ChallengePageState extends State<ChallengePage> {
             builder: (context, value, _) => Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                if (value < widget.questions.length)
-                  Expanded(
-                    child: NextButtonWidget.white(
-                      label: 'Pular',
-                      onPressed: nextPage,
-                    ),
-                  ),
-                if (value == widget.questions.length)
-                  Expanded(
-                    child: NextButtonWidget.green(
-                      label: 'Finalizar',
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ResultPage(
-                              title: widget.title,
-                              totalRightAnswers: controller.totalRightAnswers,
-                              totalQuestions: widget.questions.length,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                value == widget.questions.length
+                    ? Expanded(
+                        child: NextButtonWidget.purple(
+                          label: 'Finalizar',
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ResultPage(
+                                  title: widget.title,
+                                  totalRightAnswers:
+                                      controller.totalRightAnswers,
+                                  totalQuestions: widget.questions.length,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : Expanded(
+                        child: NextButtonWidget.green(
+                          label: 'Próxima',
+                          onPressed: nextPage,
+                        ),
+                      ),
               ],
             ),
           ),
