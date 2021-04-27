@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:quiz/home/home_state.dart';
 import 'package:quiz/home/home_repository.dart';
+import 'package:quiz/shared/models/question_model.dart';
 
 import 'package:quiz/shared/models/quiz_model.dart';
 import 'package:quiz/shared/models/user_model.dart';
@@ -13,6 +14,7 @@ class HomeController {
 
   UserModel? user;
   List<QuizModel>? quizList;
+  List<QuestionModel>? questionList;
 
   final repository = HomeRepository();
 
@@ -30,6 +32,16 @@ class HomeController {
     try {
       state = HomeState.loading;
       quizList = await repository.getQuizList();
+      state = HomeState.success;
+    } catch (error) {
+      state = HomeState.error;
+    }
+  }
+
+  void getQuestionList(String id) async {
+    try {
+      state = HomeState.loading;
+      questionList = await repository.getQuestionList(id);
       state = HomeState.success;
     } catch (error) {
       state = HomeState.error;
