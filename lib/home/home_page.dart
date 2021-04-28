@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:quiz/home/home_controller.dart';
 import 'package:quiz/home/home_state.dart';
@@ -24,7 +26,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    controller.getUser();
     controller.getQuizList();
 
     controller.stateNotifier.addListener(() {
@@ -36,6 +37,77 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final Future<FirebaseApp> _firebaseInit = Firebase.initializeApp();
 
+    // final GoogleSignIn googleSignin = GoogleSignIn();
+    User _user;
+
+    // Future<User?> _getUser() async {
+    //   try {
+    //     // if (_user.uid.length > 0) return _user;
+
+    //     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    //     final GoogleSignInAuthentication googleAuth =
+    //         await googleUser!.authentication;
+
+    //     final OAuthCredential credential = GoogleAuthProvider.credential(
+    //       accessToken: googleAuth.accessToken,
+    //       idToken: googleAuth.idToken,
+    //     );
+
+    //     final UserCredential userCredential =
+    //         await FirebaseAuth.instance.signInWithCredential(credential);
+
+    //     final User? user = userCredential.user;
+
+    //     return user;
+    //   } catch (error) {
+    //     return null;
+    //   }
+    // }
+
+    // void _sendMessage({String value, File file}) async {
+    //   final User user = await _getUser();
+
+    //   if (user == null) {
+    //     Widget snackbar = SnackBar(
+    //       content: Text('Não foi possível realizar o login. Tente novamente.'),
+    //       backgroundColor: Colors.red,
+    //     );
+
+    //     ScaffoldMessenger.of(context).removeCurrentSnackBar();
+    //     ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    //   }
+
+    //   Map<String, dynamic> data = {
+    //     'senderUid': user.uid,
+    //     'senderName': user.displayName,
+    //     'senderPhotoUrl': user.photoURL,
+    //   };
+
+    //   if (file != null) {
+    //     UploadTask task = FirebaseStorage.instance
+    //         .ref()
+    //         .child(DateTime.now().millisecondsSinceEpoch.toString())
+    //         .putFile(file);
+    //     TaskSnapshot taskSnapshot = await task.whenComplete(() {});
+    //     String url = await taskSnapshot.ref.getDownloadURL();
+    //     data['imageUrl'] = url;
+    //   }
+    //   if (value != null) {
+    //     data['value'] = value;
+    //   }
+    //   FirebaseFirestore.instance.collection('messages').add(data);
+    // }
+    //
+
+    @override
+    void initState() {
+      super.initState();
+
+      // FirebaseAuth.instance.authStateChanges().listen((user) {
+      //   _user = user ?? {} as User;
+      // });
+    }
+
     return FutureBuilder(
       future: _firebaseInit,
       builder: (context, snapshot) {
@@ -43,8 +115,9 @@ class _HomePageState extends State<HomePage> {
             controller.state == HomeState.success) {
           return Scaffold(
             appBar: AppbarWidget(
-              user: controller.user!,
-            ),
+                user: controller.user,
+                loginAction: controller.getUser,
+                logoutAction: controller.logout),
             body: Container(
               padding: EdgeInsets.symmetric(
                 horizontal: 16,
@@ -94,6 +167,11 @@ class _HomePageState extends State<HomePage> {
                                       .data()?['questions']
                                       .length,
                                   onPressed: () {
+                                    if (controller.user == null) {
+                                      controller.getUser();
+                                      return;
+                                    }
+
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(

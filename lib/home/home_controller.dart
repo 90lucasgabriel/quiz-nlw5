@@ -28,6 +28,16 @@ class HomeController {
     }
   }
 
+  void logout() async {
+    try {
+      state = HomeState.loading;
+      user = await repository.logout();
+      state = HomeState.success;
+    } catch (eror) {
+      state = HomeState.error;
+    }
+  }
+
   void getQuizList() async {
     try {
       state = HomeState.loading;
