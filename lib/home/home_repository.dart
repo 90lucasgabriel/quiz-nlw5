@@ -10,15 +10,7 @@ import 'package:quiz/shared/models/quiz_model.dart';
 
 class HomeRepository {
   Future<UserModel?> getUser() async {
-    // final response = await rootBundle.loadString('assets/database/user.json');
-    // final user = UserModel.fromJson(response);
-
-    // return user;
-    //
-
     try {
-      // if (_user.uid.length > 0) return _user;
-
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       final GoogleSignInAuthentication googleAuth =
           await googleUser!.authentication;
@@ -71,5 +63,12 @@ class HomeRepository {
         .toList();
 
     return parsedResponse;
+  }
+
+  Stream getUserScore(String id) {
+    final response =
+        FirebaseFirestore.instance.collection('userScore').doc(id).snapshots();
+
+    return response;
   }
 }

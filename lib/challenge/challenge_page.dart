@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:quiz/home/home_controller.dart';
 
 import 'package:quiz/shared/models/question_model.dart';
+import 'package:quiz/shared/models/user_model.dart';
 import 'package:quiz/challenge/challenge_controller.dart';
 import 'package:quiz/result/result_page.dart';
 
@@ -9,11 +12,15 @@ import 'package:quiz/challenge/widgets/question_indicator/question_indicator_wid
 import 'package:quiz/challenge/widgets/quiz/quiz_widget.dart';
 
 class ChallengePage extends StatefulWidget {
+  final String id;
+  final UserModel user;
   final List<QuestionModel> questions;
   final String title;
 
   const ChallengePage({
     Key? key,
+    required this.id,
+    required this.user,
     required this.questions,
     required this.title,
   }) : super(key: key);
@@ -25,6 +32,7 @@ class ChallengePage extends StatefulWidget {
 class _ChallengePageState extends State<ChallengePage> {
   final controller = ChallengeController();
   final pageController = PageController();
+  final homeController = HomeController();
 
   void nextPage() {
     if (controller.currentPage < 10) {
@@ -41,6 +49,11 @@ class _ChallengePageState extends State<ChallengePage> {
     if (value) {
       controller.totalRightAnswers++;
     }
+
+    FirebaseFirestore.instance.collection('userScore').doc(widget.user.uid).set(
+        {widget.id: controller.totalRightAnswers}, SetOptions(merge: true));
+
+    homeController.getUserScore();
   }
 
   @override
