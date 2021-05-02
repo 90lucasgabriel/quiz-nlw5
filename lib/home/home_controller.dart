@@ -24,7 +24,7 @@ class HomeController {
       state = HomeState.loading;
 
       user = await repository.getUser();
-      userScore = await repository.getUserScore(user!.uid);
+      userScore = repository.getUserScore(user!.uid);
 
       state = HomeState.success;
     } catch (eror) {
