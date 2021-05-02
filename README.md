@@ -13,7 +13,7 @@
   - [7. References](#7-references)
 
 ## 1. Introduction
-Quiz with Google authentication and Firebase realtime for questions and score.
+Quiz with Google authentication and Firebase realtime for questions and score. It was developed at Next Level Week 5, an event promoted by [Rockeseat](https://rocketseat.com.br/) _[1]_. 
 <div align="center" style="height: 300px; overflow: hidden">
   https://www.loom.com/share/2e010c7208974644821d2783fe1f082f
   
@@ -26,9 +26,9 @@ Quiz with Google authentication and Firebase realtime for questions and score.
 - [Documentation Step by step - Google Drive](https://docs.google.com/document/d/1Ttgjbk-vfKiED16oFr7kuHI49H_pHp7hZeVqiCYuuss/)
 
 ## 4. Technologies
-- [Flutter](https://flutter.dev/) _[1]_
-- [Material Design](https://material.io/) _[2]_
-- [Firebase](https://firebase.google.com/) _[3]_
+- [Flutter](https://flutter.dev/) _[2]_
+- [Material Design](https://material.io/) _[3]_
+- [Firebase](https://firebase.google.com/) _[4]_
 
 ## 5. Features
 - Material design;
@@ -57,6 +57,7 @@ flutter run
 
 
 ## 7. References
-1. Flutter - Available on https://flutter.dev/;
-2. Material Design - Available on https://material.io/;
-3. Firebase - Available on https://firebase.google.com/;
+1. Rocketseat - Available on https://rocketseat.com.br/;
+2. Flutter - Available on https://flutter.dev/;
+3. Material Design - Available on https://material.io/;
+4. Firebase - Available on https://firebase.google.com/;
