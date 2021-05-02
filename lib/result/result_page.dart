@@ -68,7 +68,7 @@ class ResultPage extends StatelessWidget {
                           label: 'Compartilhar',
                           onPressed: () {
                             Share.share(
-                                'Resultado do quiz $title:\n${totalRightAnswers / totalQuestions}% de aproveitamento.\n\nhttps://github.com/90lucasgabriel/quiz-nlw5');
+                                'Resultado do quiz $title:\n${((totalRightAnswers / totalQuestions) * 100).toStringAsFixed(2)}% de aproveitamento.\n\nhttps://github.com/90lucasgabriel/quiz-nlw5');
                           },
                         ),
                       ),

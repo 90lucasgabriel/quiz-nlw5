@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:quiz/core/core.dart';
 import 'package:quiz/shared/models/user_model.dart';
 import 'package:quiz/home/widgets/score_card/score_card_widget.dart';
+import 'package:quiz/home/widgets/score_card/score_card_skeleton_widget.dart';
 
 class AppbarWidget extends StatefulWidget {
   final UserModel? user;
@@ -114,7 +115,7 @@ class _AppbarWidgetState extends State<AppbarWidget> {
                   switch (snapshot.connectionState) {
                     case ConnectionState.none:
                     case ConnectionState.waiting:
-                      return Container();
+                      return ScoreCardSkeletonWidget();
                     default:
                       var currentData = snapshot.data as DocumentSnapshot;
                       double score = 0.0;

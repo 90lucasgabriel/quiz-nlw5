@@ -8,6 +8,7 @@ import 'package:quiz/challenge/challenge_page.dart';
 
 import 'package:quiz/home/widgets/appbar/appbar_widget.dart';
 import 'package:quiz/home/widgets/level_button/level_button_widget.dart';
+import 'package:quiz/home/widgets/quiz_card/quiz_card_skeleton_widget.dart';
 import 'package:quiz/home/widgets/quiz_card/quiz_card_widget.dart';
 import 'package:quiz/shared/models/question_model.dart';
 
@@ -67,6 +68,7 @@ class _HomePageState extends State<HomePage> {
                               LevelButtonWidget(label: 'Perito'),
                             ],
                           ),
+                          SizedBox(height: 16),
                           Expanded(
                             child: StreamBuilder<QuerySnapshot>(
                               stream: FirebaseFirestore.instance
@@ -84,6 +86,7 @@ class _HomePageState extends State<HomePage> {
                                         snapshot.data?.docs.toList() ?? [];
 
                                     return GridView.builder(
+                                      padding: EdgeInsets.only(bottom: 16),
                                       itemCount: documentList.length,
                                       gridDelegate:
                                           SliverGridDelegateWithFixedCrossAxisCount(
@@ -101,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                                             switch (snapshot.connectionState) {
                                               case ConnectionState.none:
                                               case ConnectionState.waiting:
-                                                return Container();
+                                                return QuizCardSkeletonWidget();
                                               default:
                                                 var currentData = snapshot.data
                                                     as DocumentSnapshot;
