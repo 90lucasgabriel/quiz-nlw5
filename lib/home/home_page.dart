@@ -20,11 +20,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final controller = HomeController();
+  num score = 0;
 
   @override
   void initState() {
     super.initState();
-    controller.getUser();
     controller.getQuizList();
 
     controller.stateNotifier.addListener(() {
@@ -42,78 +42,132 @@ class _HomePageState extends State<HomePage> {
         if (snapshot.connectionState == ConnectionState.done ||
             controller.state == HomeState.success) {
           return Scaffold(
-            appBar: AppbarWidget(
-              user: controller.user!,
-            ),
             body: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
               child: Column(
                 children: [
-                  SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      LevelButtonWidget(label: 'Fácil'),
-                      LevelButtonWidget(label: 'Médio'),
-                      LevelButtonWidget(label: 'Difícil'),
-                      LevelButtonWidget(label: 'Perito'),
-                    ],
+                  AppbarWidget(
+                    user: controller.user,
+                    loginAction: controller.getUser,
+                    logoutAction: controller.logout,
                   ),
                   SizedBox(height: 16),
                   Expanded(
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection('quiz')
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        switch (snapshot.connectionState) {
-                          case ConnectionState.none:
-                          case ConnectionState.waiting:
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          default:
-                            List<DocumentSnapshot> documentList =
-                                snapshot.data?.docs.toList() ?? [];
-
-                            return GridView.builder(
-                              itemCount: documentList.length,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 16,
-                                mainAxisSpacing: 16,
-                              ),
-                              itemBuilder: (context, index) {
-                                return QuizCardWidget(
-                                  title: documentList[index].data()?['title'],
-                                  quantityAnswered: 1,
-                                  totalQuestions: documentList[index]
-                                      .data()?['questions']
-                                      .length,
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ChallengePage(
-                                          title: documentList[index]
-                                              .data()?['title'],
-                                          questions: documentList[index]
-                                              .data()?['questions']
-                                              .map<QuestionModel>((item) =>
-                                                  QuestionModel.fromMap(item))
-                                              .toList(),
-                                        ),
-                                      ),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16,
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              LevelButtonWidget(label: 'Fácil'),
+                              LevelButtonWidget(label: 'Médio'),
+                              LevelButtonWidget(label: 'Difícil'),
+                              LevelButtonWidget(label: 'Perito'),
+                            ],
+                          ),
+                          Expanded(
+                            child: StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection('quiz')
+                                  .snapshots(),
+                              builder: (context, snapshot) {
+                                switch (snapshot.connectionState) {
+                                  case ConnectionState.none:
+                                  case ConnectionState.waiting:
+                                    return Center(
+                                      child: CircularProgressIndicator(),
                                     );
-                                  },
-                                );
+                                  default:
+                                    List<DocumentSnapshot> documentList =
+                                        snapshot.data?.docs.toList() ?? [];
+
+                                    return GridView.builder(
+                                      itemCount: documentList.length,
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 16,
+                                        mainAxisSpacing: 16,
+                                      ),
+                                      itemBuilder: (context, index) {
+                                        return StreamBuilder(
+                                          stream: FirebaseFirestore.instance
+                                              .collection('userScore')
+                                              .doc(controller.user?.uid)
+                                              .snapshots(),
+                                          builder: (context, snapshot) {
+                                            switch (snapshot.connectionState) {
+                                              case ConnectionState.none:
+                                              case ConnectionState.waiting:
+                                                return Container();
+                                              default:
+                                                var currentData = snapshot.data
+                                                    as DocumentSnapshot;
+
+                                                score += currentData.data()?[
+                                                        documentList[index]
+                                                            .id] ??
+                                                    0;
+
+                                                return QuizCardWidget(
+                                                  title: documentList[index]
+                                                      .data()?['title'],
+                                                  quantityAnswered: currentData
+                                                              .data()?[
+                                                          documentList[index]
+                                                              .id] ??
+                                                      0,
+                                                  totalQuestions:
+                                                      documentList[index]
+                                                          .data()?['questions']
+                                                          .length,
+                                                  onPressed: () {
+                                                    if (controller.user ==
+                                                        null) {
+                                                      controller.getUser();
+                                                      return;
+                                                    }
+
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ChallengePage(
+                                                          id: documentList[
+                                                                  index]
+                                                              .id,
+                                                          user:
+                                                              controller.user!,
+                                                          title: documentList[
+                                                                  index]
+                                                              .data()?['title'],
+                                                          questions: documentList[
+                                                                  index]
+                                                              .data()?[
+                                                                  'questions']
+                                                              .map<QuestionModel>((item) =>
+                                                                  QuestionModel
+                                                                      .fromMap(
+                                                                          item))
+                                                              .toList(),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                            }
+                                          },
+                                        );
+                                      },
+                                    );
+                                }
                               },
-                            );
-                        }
-                      },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

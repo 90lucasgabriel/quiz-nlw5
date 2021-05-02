@@ -15,13 +15,37 @@ class HomeController {
   UserModel? user;
   List<QuizModel>? quizList;
   List<QuestionModel>? questionList;
+  var userScore;
 
   final repository = HomeRepository();
 
   void getUser() async {
     try {
       state = HomeState.loading;
+
       user = await repository.getUser();
+      userScore = repository.getUserScore(user!.uid);
+
+      state = HomeState.success;
+    } catch (eror) {
+      state = HomeState.error;
+    }
+  }
+
+  void getUserScore() {
+    try {
+      state = HomeState.loading;
+      userScore = repository.getUserScore(user!.uid);
+      state = HomeState.success;
+    } catch (eror) {
+      state = HomeState.error;
+    }
+  }
+
+  void logout() async {
+    try {
+      state = HomeState.loading;
+      user = await repository.logout();
       state = HomeState.success;
     } catch (eror) {
       state = HomeState.error;

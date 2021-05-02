@@ -29,9 +29,12 @@ class _QuizWidgetState extends State<QuizWidget> {
     return Container(
       child: Column(
         children: [
-          Text(
-            widget.question.title,
-            style: AppTextStyles.heading,
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              widget.question.title,
+              style: AppTextStyles.heading,
+            ),
           ),
           SizedBox(height: 24),
           for (var i = 0; i < widget.question.answers.length; i++)
@@ -41,11 +44,8 @@ class _QuizWidgetState extends State<QuizWidget> {
               isSelected: selectedIndex == i,
               onPressed: (value) {
                 selectedIndex = i;
+                widget.onSelected(value);
                 setState(() {});
-
-                Future.delayed(Duration(seconds: 1)).then(
-                  (_) => widget.onSelected(value),
-                );
               },
             ),
         ],
