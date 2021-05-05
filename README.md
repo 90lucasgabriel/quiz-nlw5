@@ -2,7 +2,7 @@
 
 <img src="https://user-images.githubusercontent.com/9625765/117085933-8dd4ed80-ad21-11eb-8e80-4011449b33e1.png" width="250px" />
   
-<img src="https://user-images.githubusercontent.com/9625765/116822605-1010b680-ab56-11eb-9e7e-e245ec40286a.png" width="200px" /> <img src="https://user-images.githubusercontent.com/9625765/116822618-24ed4a00-ab56-11eb-9f92-044ab6b9345c.png" width="200px" /> <img src="https://user-images.githubusercontent.com/9625765/116822629-333b6600-ab56-11eb-9157-bd6b944a1ac2.png" width="200px" /> <img src="https://user-images.githubusercontent.com/9625765/116822637-3df5fb00-ab56-11eb-82a9-746f85306dd9.png" width="200px" /> 
+<img src="https://user-images.githubusercontent.com/9625765/116822605-1010b680-ab56-11eb-9e7e-e245ec40286a.png" width="170px" /> <img src="https://user-images.githubusercontent.com/9625765/116822618-24ed4a00-ab56-11eb-9f92-044ab6b9345c.png" width="170px" /> <img src="https://user-images.githubusercontent.com/9625765/116822629-333b6600-ab56-11eb-9157-bd6b944a1ac2.png" width="170px" /> <img src="https://user-images.githubusercontent.com/9625765/116822637-3df5fb00-ab56-11eb-82a9-746f85306dd9.png" width="170px" /> 
   
 </div>
 
